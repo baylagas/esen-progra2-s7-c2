@@ -6,13 +6,14 @@ function checkLogin() {
     var user = document.getElementById("user").value;
     var password = document.getElementById("passw").value;
 
-    var userArray = JSON.parse(sessionStorage.getItem("wUserArray"));
+    var userArray = JSON.parse(localStorage.getItem("lUserArray"));
 
     if (user !== null && user !== "") {
         if (password !== null && password !== "") {
 
             var canLogin = checkLoginInfo(user, password, userArray);
             if (canLogin === true) {
+                createSessionUser(user, password)
                 window.location.href = "http://localhost:5000/dashboard";
                 //window.location.href = "http://heroku:5000/dashboard";
             } else {
@@ -37,6 +38,15 @@ function checkLoginInfo(user, password, userArray) {
         }
     }
     return false;
+}
+
+function createSessionUser(user, password) {
+    var logged_user = {
+        user: user,
+        password: password
+    };
+
+    sessionStorage.setItem("loggedUser", JSON.stringify(logged_user));
 }
 
 /*

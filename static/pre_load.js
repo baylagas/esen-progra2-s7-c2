@@ -17,3 +17,5 @@ function preLoadUsers() {
 
     localStorage.setItem("lUserArray", JSON.stringify(userArray))
 }
+
+preLoadUsers()
