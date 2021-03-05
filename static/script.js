@@ -13,7 +13,9 @@ function checkLogin() {
 
             var canLogin = checkLoginInfo(user, password, userArray);
             if (canLogin === true) {
-                createSessionUser(user, password)
+                //need a method to get the role and send it into createSessionUser below
+                var role = getUserRole(user, password, userArray)
+                createSessionUser(user, password, role)
                 window.location.href = "http://localhost:5000/dashboard";
                 //window.location.href = "http://heroku:5000/dashboard";
             } else {
@@ -40,10 +42,25 @@ function checkLoginInfo(user, password, userArray) {
     return false;
 }
 
-function createSessionUser(user, password) {
+function getUserRole(pUser, pPassword, pUserArray) {
+    var role = ""
+    if (pUserArray !== null && pUserArray.length > 0) {
+        var length = pUserArray.length
+        for (var i = 0; i < length; i++) {
+            if (pUserArray[i].user === pUser && pUserArray[i].password === pPassword) {
+                role = pUserArray[i].role
+                break
+            }
+        }
+    }
+    return role
+}
+
+function createSessionUser(user, password, role) {
     var logged_user = {
         user: user,
-        password: password
+        password: password,
+        role: role
     };
 
     sessionStorage.setItem("loggedUser", JSON.stringify(logged_user));
@@ -61,6 +78,7 @@ function createSessionUser(user, password) {
 function registerNewUser() {
     var reg_user = document.getElementById("user_reg").value;
     var reg_password = document.getElementById("passw_reg").value;
+    var reg_role = "client";
 
     //alert(reg_user);
     var userArray = [];
@@ -71,7 +89,8 @@ function registerNewUser() {
 
     var current_reg = {
         user: reg_user,
-        password: reg_password
+        password: reg_password,
+        role: reg_role
     };
 
     userArray.push(current_reg);
@@ -116,9 +135,10 @@ function checkForValidLoginSession() {
 function setUserNameOnDashboard() {
     var userArray = JSON.parse(sessionStorage.getItem("loggedUser"))
     var currentUser = userArray.user
+    var currentRole = userArray.role
 
     var userSpan = document.getElementById("user")
-    userSpan.innerText = "Hello, " + currentUser
+    userSpan.innerText = "Hello, " + currentRole + " " + currentUser
 }
 
 function logout() {
