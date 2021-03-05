@@ -65,8 +65,8 @@ function registerNewUser() {
     //alert(reg_user);
     var userArray = [];
 
-    if (sessionStorage.getItem("wUserArray") !== null) {
-        userArray = JSON.parse(sessionStorage.getItem("wUserArray"));
+    if (localStorage.getItem("lUserArray") !== null) {
+        userArray = JSON.parse(localStorage.getItem("lUserArray"));
     }
 
     var current_reg = {
@@ -76,7 +76,7 @@ function registerNewUser() {
 
     userArray.push(current_reg);
 
-    sessionStorage.setItem("wUserArray", JSON.stringify(userArray));
+    localStorage.setItem("lUserArray", JSON.stringify(userArray));
 
     window.location.href = "http://localhost:5000/login"
     //window.location.href = "http://heroku:5000/login";
@@ -107,28 +107,22 @@ function checkForValidLoginSession() {
     hacia el login
     */
 
-    if (sessionStorage.getItem("wUserArray") == null) {
+    if (sessionStorage.getItem("loggedUser") == null) {
         window.location.href = "http://localhost:5000/login"
         //window.location.href = "http://heroku:5000/login";
-    }
-    else {
-        if (sessionStorage.length == 0) {
-            window.location.href = "http://localhost:5000/login"
-            //window.location.href = "http://heroku:5000/login";
-        }
     }
 }
 
 function setUserNameOnDashboard() {
-    var userArray = JSON.parse(sessionStorage.getItem("wUserArray"))
-    var currentUser = userArray[0].user
+    var userArray = JSON.parse(sessionStorage.getItem("loggedUser"))
+    var currentUser = userArray.user
 
     var userSpan = document.getElementById("user")
     userSpan.innerText = "Hello, " + currentUser
 }
 
 function logout() {
-    sessionStorage.removeItem("wUserArray")
+    sessionStorage.removeItem("loggedUser")
     window.location.href = "http://localhost:5000/"
     //window.location.href = "http://heroku:5000/";
 }
