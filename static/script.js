@@ -162,6 +162,7 @@ function add() {
     var result = num1 + num2
     cleanForm()
     addResultToTable(num1, num2, result)
+    addResultToStorage(num1, num2, result)
 
 }
 
@@ -178,6 +179,24 @@ function addResultToTable(pNum1, pNum2, pResult) {
     row.insertCell(0).innerHTML = pNum1;
     row.insertCell(1).innerHTML = pNum2;
     row.insertCell(2).innerHTML = pResult;
+}
+
+function addResultToStorage(pNum1, pNum2, pResult) {
+    var addResultArray = [];
+
+    if (localStorage.getItem("lAddResultArray") !== null) {
+        addResultArray = JSON.parse(localStorage.getItem("lAddResultArray"));
+    }
+
+    var current_add_result = {
+        user: "test",
+        num1: pNum1,
+        num2: pNum2,
+        result: pResult
+    }
+
+    addResultArray.push(current_add_result)
+    localStorage.setItem("lAddResultArray", JSON.stringify(addResultArray));
 }
 
 /*
