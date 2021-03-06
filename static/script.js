@@ -150,3 +150,36 @@ function logout() {
 /*
 ************* dashboard functionality end
 */
+
+
+/*
+************* dashboard functionality add
+*/
+
+function add() {
+    var num1 = parseInt(document.getElementById("number1").value)
+    var num2 = parseInt(document.getElementById("number2").value)
+    var result = num1 + num2
+    cleanForm()
+    addResultToTable(num1, num2, result)
+
+}
+
+function cleanForm() {
+    document.getElementById("number1").value = ""
+    document.getElementById("number2").value = ""
+}
+
+function addResultToTable(pNum1, pNum2, pResult) {
+    var myTable = document.getElementById("myTable")
+
+    var row = myTable.insertRow(1)
+
+    row.insertCell(0).innerHTML = pNum1;
+    row.insertCell(1).innerHTML = pNum2;
+    row.insertCell(2).innerHTML = pResult;
+}
+
+/*
+************* dashboard functionality add
+*/
